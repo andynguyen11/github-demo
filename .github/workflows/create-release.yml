@@ -1,0 +1,28 @@
+name: Create release
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+  deploy-container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      - name: 'Generate release notes'
+        id: releasenotes
+        run: git log --pretty=format:"* %an: %s" 
+      - name: 'Generate release'
+        uses: ncipollo/release-action@v1
+        with:
+          body: ${{ steps.releasenotes.outputs }}
+          token: ${{ secrets.TOKEN }}
+
