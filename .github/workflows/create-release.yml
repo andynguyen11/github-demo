@@ -19,10 +19,9 @@ jobs:
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
       - name: 'Generate release notes'
         id: releasenotes
-        run: git log --pretty=format:"* %an: %s" 
+        run: 'git log --pretty=format:"* %an: %s"'
       - name: 'Generate release'
         uses: ncipollo/release-action@v1
         with:
           body: ${{ steps.releasenotes.outputs }}
           token: ${{ secrets.TOKEN }}
-
