@@ -15,12 +15,15 @@ jobs:
         with:
           fetch-depth: 0
       - name: 'Get Previous tag'
-        id: previoustag
+        id: current_tag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      - name: Get previous tag name
+        id: previous_tag
+        run: echo "::set-output name=TAGNAME::$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))"
       - name: 'Generate release notes'
         id: releasenotes
         run: |
-          release=$(git log --pretty=format:"* %an: %s")
+          release=$(git log --pretty=format:"* %an: %s" ${{ steps.current_tag.outputs }}...${{ steps.previous_tag.outputs }})
           echo 'RELEASE_BODY<<EOF' >> $GITHUB_ENV
           echo "${release}" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
