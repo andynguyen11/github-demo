@@ -22,7 +22,7 @@ jobs:
         run: |
           release=$(git log --pretty=format:"* %an: %s")
           echo 'RELEASE_BODY<<EOF' >> $GITHUB_ENV
-          '$release' >> $GITHUB_ENV
+          ${release} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - name: 'Generate release'
         uses: ncipollo/release-action@v1
