@@ -20,7 +20,7 @@ jobs:
       - name: 'Generate release notes'
         id: releasenotes
         run: |
-          echo "RELEASE_BODY=$(git log --pretty=format:'* %an: %s')" >> $GITHUB_ENV
+          echo "RELEASE_BODY=\"$(git log --pretty=format:'* %an: %s')\"" >> $GITHUB_ENV
       - name: 'Generate release'
         uses: ncipollo/release-action@v1
         with:
